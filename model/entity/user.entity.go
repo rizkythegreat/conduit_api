@@ -7,10 +7,11 @@ import (
 )
 
 type User struct {
-	ID        uint           `json:"id" gorm:"primary_key"`
-	Name      string         `json:"name"`
-	Email     string         `json:"email"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `json:"deleted_at" gorm:"index"`
+	ID        uint           `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name      string         `json:"name" gorm:"not null;size:100"`
+	Email     string         `json:"email" gorm:"uniqueIndex;not null;size:255"`
+	Articles  []Article      `json:"articles,omitempty" gorm:"foreignKey:AuthorID"`
+	CreatedAt time.Time      `json:"created_at" gorm:"autoCreateTime"`
+	UpdatedAt time.Time      `json:"updated_at" gorm:"autoUpdateTime"`
+	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }
